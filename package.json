@@ -1,0 +1,29 @@
+{
+  "name": "social-network-webservice",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "test": "mocha"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "express-fileupload": "^1.1.6",
+    "http-errors": "~1.6.3",
+    "http-proxy": "^1.18.0",
+    "less-middleware": "~2.2.1",
+    "mailgun.js": "^2.0.1",
+    "mocha": "^7.1.1",
+    "moment": "^2.24.0",
+    "mongodb": "^3.5.5",
+    "mongoose": "^5.9.6",
+    "morgan": "~1.9.1",
+    "node-dev": "^4.0.0",
+    "nodemailer": "^6.4.6",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {}
+}
