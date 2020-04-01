@@ -17,7 +17,7 @@ const BlockedAccounts = require('../model/blocked-account')
 const postServiceImpl = {
     uploadPost:  function(postModel,callback)  {
         blacklistservice.isHealthy(postModel,(result)=>{ 
-            //console.debug(`${result}`)    
+        //    console.debug(`${result}`)    
             if(result){
                 postModel.save((err,doc)=>{
                     if(err){

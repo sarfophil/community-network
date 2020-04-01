@@ -7,6 +7,7 @@ const UserModel = require('../model/user').getModel
 // service
 const fileStorageService = require('../service/filestorage-service')
 const postService = require('../service/post-service')
+const searchService = require('../service/search-service')
 
 // util
 const Utils = require('../util/appUtil') 
@@ -27,37 +28,47 @@ router.get('/',(req,res) => {
 router.post('/', function(req,res){
     let requestData = postDto(req.body)
     
-    let postImages = req.files.imageLink instanceof Array ? req.files.imageLink : [req.files.imageLink]
+    UserModel.findOne({_id: requestData.user}, (err,doc) => {
+        if(err) res.sendStatus(404)
+        requestData.postuname = doc.username
 
-    let post = new PostModel(requestData)
+        
+        let postImages = req.files.imageLink instanceof Array ? req.files.imageLink : [req.files.imageLink]
 
-    //validate
-    post.validate()
-        .then(value => {
-            //save post
-            postService.uploadPost(post, (result,resultMessage) => {
-              
-                if(result){
-                    uploadImage(postImages,post,(err,images) => {
-                        
-                        if(err){
-                            //rollback
-                            post.delete()
-                            res.status(500).send(err)
-                        }else{    
-                            post.imageLink = images
-                            post.save()   
-                            res.status(202).send('Posted')
-                        }
-                    })
-                }else{
-                    res.status(500).send(resultMessage)
-                }
+        let post = new PostModel(requestData)
+
+
+        //validate
+        post.validate()
+            .then(value => {
+                //save post
+                postService.uploadPost(post, (result,resultMessage) => {
+                
+                    if(result){
+                        uploadImage(postImages,post,(err,images) => {
+                            
+                            if(err){
+                                //rollback
+                                post.delete()
+                                res.status(500).send(err)
+                            }else{    
+                                post.imageLink = images
+                                post.save()   
+                                res.status(202).send('Posted')
+                            }
+                        })
+                    }else{
+                        res.status(500).send(resultMessage)
+                    }
+                })
             })
-        })
-        .catch(error => {
-            res.status(500).send('Input Validation Error')
-        })
+            .catch(error => {
+                res.status(500).send('Input Validation Error')
+            })
+
+
+    })
+
   
     
  })
@@ -85,7 +96,8 @@ router.post('/', function(req,res){
          audienceCriteria: {
              age: JSON.parse(requestBody.ageGroupTarget)
          },
-         audienceFollowers: JSON.parse(requestBody.targetFollowers)
+         audienceFollowers: JSON.parse(requestBody.targetFollowers),
+         postuname: null
      }
  }
  
@@ -143,9 +155,13 @@ router.delete('/:postId/comments/:commentId',function(req,res) {
 
 // search post
 router.get('/search',function(req,res) {
-    //let username = req.query.query;
-   // UserModel.
-   // postService.find({})
+    let username = req.query.query;
+    let limit = parseInt(req.query.limit)
+    console.log(`${username} - ${limit}`)
+    searchService.search(username,limit,(err,doc) => {
+       // console.log(doc)
+        res.status(200).send(doc)
+    })
 })
   
   
