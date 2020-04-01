@@ -1,6 +1,7 @@
 /**
  * Application Properties defined here
  */
+const path = require('path')
 
 const config = {
     dbConnectionHost: 'mongodb://localhost:27017/',

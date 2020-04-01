@@ -3,6 +3,7 @@
  */
 const config = require('../config/properties')
 const allowedMimeType = ['image/jpeg','image/png']
+const uploadDirectory = require('../public/uploads/upload-path')
 
 /**
  * 
@@ -70,7 +71,7 @@ const processPostImages =  function (pictures,post,namingType,callback){
                 }
                 
                 // move files to server directory
-                picture.mv(config.uploadDirectory+picture.name,(err) => {  
+                picture.mv(uploadDirectory.getPath().concat(picture.name),(err) => {  
                     if(err){
                         picStatus.push({failed: true,response: err})
                     }
