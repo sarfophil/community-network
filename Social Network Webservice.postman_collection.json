@@ -1,0 +1,974 @@
+{
+	"info": {
+		"_postman_id": "1b967daa-22d5-4a07-85ed-feb5df7a3517",
+		"name": "Social Network Webservice",
+		"description": "# Introduction\nSocial Network Webservice exposes endpoints for any frontend to consume the API.\n# Overview\nSocial Network Webservice API\n\n# Authentication\nPreferred way to consume the API is to add JWT as the Bearer token. Also, the webservice will authenticate and generate these tokens.\n\n# Error Codes\nExpected Status Codes: 202,201,400,500,401,403\n\n# Rate Limit\nCurrently there are no limit of number of request a user can send. In future, as the user expands I will consider scaling the webservice into a microservice.\n\n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Blacklisted words",
+			"item": [
+				{
+					"name": "Add keywords",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\"kill\",\"sex\",\"corona\",\"america\"]"
+						},
+						"url": {
+							"raw": "http://localhost:3000/admin/blacklistwords",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"admin",
+								"blacklistwords"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Keyword",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/admin/blacklistwords/:blacklistId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"admin",
+								"blacklistwords",
+								":blacklistId"
+							],
+							"variable": [
+								{
+									"key": "blacklistId",
+									"value": "5e82ac869a18a727e4c84576"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Keywords",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/javascript",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/admin/blacklistwords",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"admin",
+								"blacklistwords"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Blacklisting words endpoints to be configured by the admin\n",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Advertisement",
+			"item": [
+				{
+					"name": "Post an Ad",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "example title",
+									"description": "Ad title",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "Lorem Ipsum",
+									"description": "Content of the Ad",
+									"type": "text"
+								},
+								{
+									"key": "link",
+									"value": "http://www.example.com",
+									"description": "Link to Ad",
+									"type": "text"
+								},
+								{
+									"key": "banner",
+									"description": "Sample banner images (Max 3)",
+									"type": "file",
+									"src": [
+										"/C:/Users/SARFO PHILIP/Pictures/03.jpg",
+										"/C:/Users/SARFO PHILIP/Pictures/3.jpg"
+									]
+								},
+								{
+									"key": "owner",
+									"value": "5e7e2edaca1d3330d43753dc",
+									"description": "Admin Id here",
+									"type": "text"
+								},
+								{
+									"key": "age_target",
+									"value": "{\"min\":20,\"max\":50}",
+									"description": "Audience Age",
+									"type": "text"
+								},
+								{
+									"key": "target_location",
+									"value": "[0,0]",
+									"description": "Location of targetted audience",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/admin/ads",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"admin",
+								"ads"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get an Ad",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/admin/ads?limit=5&skip=0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"admin",
+								"ads"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "skip",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Post Review",
+			"item": [
+				{
+					"name": "Load Blacklisted Posts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/admin/blacklist/posts/reviews",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"admin",
+								"blacklist",
+								"posts",
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Authorize Post",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/admin/blacklist/posts/reviews/:reviewId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"admin",
+								"blacklist",
+								"posts",
+								"reviews",
+								":reviewId"
+							],
+							"variable": [
+								{
+									"key": "reviewId",
+									"value": "5e837a0a31beaa355492f82a"
+								}
+							]
+						},
+						"description": "Review and Post \n"
+					},
+					"response": []
+				},
+				{
+					"name": "Reject Post",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/admin/blacklist/posts/reviews/:reviewId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"admin",
+								"blacklist",
+								"posts",
+								"reviews",
+								":reviewId"
+							],
+							"variable": [
+								{
+									"key": "reviewId",
+									"value": "5e837c217572121c90b0bdab"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Admin Reviewing Blacklisted Posts\n",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Followers",
+			"item": [
+				{
+					"name": "Add a follower",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/user/:userId/followers/:followerId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								":userId",
+								"followers",
+								":followerId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "5e8211c11c7528328cfda190"
+								},
+								{
+									"key": "followerId",
+									"value": "5e8211e61c7528328cfda199"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get followers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/user/:userId/followers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								":userId",
+								"followers"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "5e8211c11c7528328cfda190"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unfollow",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/user/:userId/followers/:followerId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								":userId",
+								"followers",
+								":followerId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "5e8211c11c7528328cfda190"
+								},
+								{
+									"key": "followerId",
+									"value": "5e8211e61c7528328cfda199"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Like Feature",
+			"item": [
+				{
+					"name": "Like a post",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/posts/:postId/user/:userId/likes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"posts",
+								":postId",
+								"user",
+								":userId",
+								"likes"
+							],
+							"variable": [
+								{
+									"key": "postId",
+									"value": "5e837a0a31beaa355492f829"
+								},
+								{
+									"key": "userId",
+									"value": "5e8211c11c7528328cfda190"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unlike a post",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/posts/:postId/user/:userId/likes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"posts",
+								":postId",
+								"user",
+								":userId",
+								"likes"
+							],
+							"variable": [
+								{
+									"key": "postId",
+									"value": "5e837a0a31beaa355492f829"
+								},
+								{
+									"key": "userId",
+									"value": "5e8211c11c7528328cfda190"
+								}
+							]
+						},
+						"description": "User unlikes a post"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Comment Feature",
+			"item": [
+				{
+					"name": "Comment on a post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"content\": \"Lorem Ipsum\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/posts/:postId/user/:userId/comments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"posts",
+								":postId",
+								"user",
+								":userId",
+								"comments"
+							],
+							"variable": [
+								{
+									"key": "postId",
+									"value": "5e837a0a31beaa355492f829"
+								},
+								{
+									"key": "userId",
+									"value": "5e8211c11c7528328cfda190"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Comment on a post",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"content\": \"Lorem Ipsum\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/posts/5e837a0a31beaa355492f829/user/5e8211c11c7528328cfda190/comments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"posts",
+										"5e837a0a31beaa355492f829",
+										"user",
+										"5e8211c11c7528328cfda190",
+										"comments"
+									]
+								}
+							},
+							"status": "Accepted",
+							"code": 202,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get Comments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/posts/:postId/comments?limit=4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"posts",
+								":postId",
+								"comments"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "4"
+								}
+							],
+							"variable": [
+								{
+									"key": "postId",
+									"value": "5e837a0a31beaa355492f829"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a comment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/posts/:postId/comments/:commentId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"posts",
+								":postId",
+								"comments",
+								":commentId"
+							],
+							"variable": [
+								{
+									"key": "postId",
+									"value": "5e837a0a31beaa355492f829"
+								},
+								{
+									"key": "commentId",
+									"value": "5e83bbd4c45c401b60e9d964"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Create Account",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"jan.doe1\",\n    \"email\": \"jandoe@gmail.com\",\n    \"password\": \"super\",\n    \"age\": 12\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/user/account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user",
+						"account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Write a post",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user",
+							"value": "5e8211c11c7528328cfda190",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "Lorem ",
+							"type": "text"
+						},
+						{
+							"key": "content",
+							"value": "Lorem Ipsum Lovia",
+							"type": "text"
+						},
+						{
+							"key": "imageLink",
+							"type": "file",
+							"src": "/C:/Users/SARFO PHILIP/Pictures/03.jpg"
+						},
+						{
+							"key": "coordinates",
+							"value": "[0,0]",
+							"type": "text"
+						},
+						{
+							"key": "ageGroupTarget",
+							"value": "{\"min\": 20,\"max\": 40}",
+							"type": "text"
+						},
+						{
+							"key": "targetFollowers",
+							"value": "[]",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/posts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"posts"
+					]
+				},
+				"description": "put a post on your wall\n"
+			},
+			"response": [
+				{
+					"name": "Write a post",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "user",
+									"value": "5e8211c11c7528328cfda190",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "Lorem ",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "Lorem Ipsum Lovia",
+									"type": "text"
+								},
+								{
+									"key": "imageLink",
+									"type": "file",
+									"src": "/C:/Users/SARFO PHILIP/Pictures/03.jpg"
+								},
+								{
+									"key": "coordinates",
+									"value": "[0,0]",
+									"type": "text"
+								},
+								{
+									"key": "ageGroupTarget",
+									"value": "{\"min\": 20,\"max\": 40}",
+									"type": "text"
+								},
+								{
+									"key": "targetFollowers",
+									"value": "[]",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/posts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"status": "Accepted",
+					"code": 202,
+					"_postman_previewlanguage": "html",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/html; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "6"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"6-MBd3//QYmKv/x4LK4hgsfhPWgUY\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 31 Mar 2020 23:57:52 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "Posted"
+				}
+			]
+		},
+		{
+			"name": "Retrieve posts",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": \"5e8211c11c7528328cfda190\",\n\t\"skip\": 5,\n\t\"limit\": 10,\n\t\"cord\": [0,0]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/posts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Retrieve posts",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"user\": \"5e8211c11c7528328cfda190\",\n\t\"skip\": 5,\n\t\"limit\": 10,\n\t\"cord\": [0,0]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/posts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Upload Profile pic",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "picture",
+							"type": "file",
+							"src": "/C:/Users/SARFO PHILIP/Pictures/03.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/user/account/profilepic/${{userId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user",
+						"account",
+						"profilepic",
+						"${{userId}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Upload Profile pic",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "picture",
+									"type": "file",
+									"src": "/C:/Users/SARFO PHILIP/Pictures/03.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/account/profilepic/5e8211c11c7528328cfda190",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"account",
+								"profilepic",
+								"5e8211c11c7528328cfda190"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		}
+	],
+	"protocolProfileBehavior": {}
+}
