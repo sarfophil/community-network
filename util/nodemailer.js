@@ -54,7 +54,7 @@ const createEmailAndSend = {
      */
     sendEmail : function(callback){
         transporter.sendMail(emailTemplate, (err, info) => {
-            if(err) throw new Error("error sending mail")
+            if(err) callback(err)
             callback(info)
         });
     }

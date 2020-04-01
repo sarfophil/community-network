@@ -30,10 +30,6 @@ const user = {
         type: Number,
         required: true
     },
-    // role:{
-    //     type: roleSchema,
-    //     required: true
-    // },
     isActive:{
         type: Boolean,
         default: true

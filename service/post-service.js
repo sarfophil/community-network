@@ -7,10 +7,10 @@ const userModel = userDomain.getModel;
 const config = require('../config/properties')
 const ws = require("../config/websocket")
 const nodemailer = require('../util/nodemailer')
-const adminService= require('../service/admin-service')
 const PostModel = require('../model/post').getModel
 const commentModel = require('../model/comment')
 const Utils = require('../util/apputil')
+const BlockedAccounts = require('../model/blocked-account')
 
 
 
@@ -72,6 +72,11 @@ const postServiceImpl = {
 
             // overwrite db
             await user.save()
+
+            // Add to blocked Model
+            console.log(`Adding account to blocked Collections`)
+            let accountBlocked = new BlockedAccounts({account: user});
+            await accountBlocked.save()
             
             // send notification
             console.log('Sending notification with socket ...')

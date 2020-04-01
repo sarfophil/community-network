@@ -8,7 +8,6 @@ const config = {
     collections: [],
     // geoDistance is used by GEOJSON to query posts based on user provided coords and geodistance
     geoDistance: {minDistance: 0,maxDistance: 1000},
-    wsLink: 'ws://localhost:3001/ws',
     maxVoilationLimit: 20,
     uploadDirectory: '/demos/mwa_labs/project/social-network-webservice/public/uploads/',
     server: null

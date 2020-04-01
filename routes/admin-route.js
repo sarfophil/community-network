@@ -5,6 +5,9 @@ const blacklistModel = require('../model/blacklistedkeyword');
 const postModel = require('../model/post').getModel
 const AdvertModel = require('../model/advertisement').advertisementModel
 const BlacklistedPostModel = require('../model/blacklistedPost');
+const BlockedAccount = require('../model/blocked-account')
+const UserModel = require('../model/user').getModel
+const nodemailer = require('../util/nodemailer')
 
 
 const advertService = require('../service/advertisement-service');
@@ -159,6 +162,49 @@ router.get('/blacklistwords',function(req,res) {
 router.delete('/blacklistwords/:blacklistId',function (req,res) {
     blacklistModel.deleteOne({_id: req.params.blacklistId.toString()},(err) => console.log(err))
     res.status(200).send('keyword removed')
+})
+
+
+/**
+ * @accountReview
+ * 
+ */
+router.get('/accounts/reviews',function(req,res) {
+    let limit = parseInt(req.params.limit)
+    BlockedAccount.find({hasRequestedAReview: true},(err,doc) => res.status(200).send(doc)).limit(limit)
+})
+
+// accept a review
+router.put('/accounts/reviews/:reviewId', function(req,res) {
+    let reviewId = req.params.reviewId;
+    BlockedAccount.findById({_id: reviewId},(err,doc) => {
+        if(err) res.sendStatus(404)
+        
+        UserModel.findOne({_id: doc.account._id},(err,user) => {
+            if(err) {
+                res.sendStatus(404)
+            } else {
+
+                //update user info
+                user.isActive = true;
+                user.totalVoilation = 0
+                user.save()
+
+                // remove data from blocked-account collection
+                doc.deleteOne()
+
+                // send user an email
+                nodemailer.to([user.email])
+                        .subject("Account Activated")
+                        .text(`Dear ${user.username}, Your Account has been activated successfully`)
+                        .sendEmail(onSucess => console.log(`Email Sent ! ${onSucess}`))
+                
+                res.sendStatus(200)
+            }
+
+        })
+
+    })
 })
 
 

@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 const UserModel = require('../model/user').getModel
 const userService = require('../service/user-service')
+const BlockedAccount = require('../model/blocked-account')
+const ws = require("../config/websocket")
 
 
 //const postService = require('../service/post-service')
@@ -26,7 +28,6 @@ router.post('/account', function(req,res,next) {
     .then(result => res.status(201).send(result))
     .catch(error => res.status(200).send(error))
   }).catch(err => {
-    console.log(err.stack)
     res.status(400).send('Invalid Inputs. Please check your inputs')
   })
 })
@@ -101,6 +102,20 @@ router.delete('/:userId/followers/:followerId', function(req,res) {
       .then(success => res.status(200).send(success))
       .catch(reject => res.status(500).send('Unable to complete process'))
   })
+})
+
+
+// reporting blocked account for review
+router.post('/report',function(req,res) {
+   let email = req.body.email;
+   BlockedAccount.findOne({"account.email": email}, (err,doc) => {
+      if(err) res.sendStatus(404)
+      doc.hasRequestedAReview = true
+      doc.save()
+      ws().then(socket => socket.emit('AccountReviewReport', {}))
+                .catch(err=> console.error(err))
+      res.sendStatus(201)
+   })
 })
 
 
