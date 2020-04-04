@@ -15,6 +15,7 @@ const Utils = require('../util/appUtil')
 
 router.get('/',(req,res) => {
     let dto = req.body;
+    console.log(req.principal)
     postService.loadPost(dto.user,dto.skip,dto.limit,dto.cord)
     .then(doc => {
         res.status(200).send(doc)
@@ -65,12 +66,7 @@ router.post('/', function(req,res){
             .catch(error => {
                 res.status(500).send('Input Validation Error')
             })
-
-
     })
-
-  
-    
  })
  
  
@@ -99,9 +95,6 @@ router.post('/', function(req,res){
          postuname: null
      }
  }
- 
-
- 
  
 
   

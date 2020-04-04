@@ -9,11 +9,11 @@ var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user-route');
 var postRouter = require('./routes/post-route');
 var adminRouter = require('./routes/admin-route');
+var security = require('./config/securityconfig')
 
 
 // File Upload Plugin
 const fileUpload = require('express-fileupload')
-
 
 
 var app = express();
@@ -27,14 +27,19 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(security.authorize)
+
+
+
+
 
 // file upload option
 app.use(fileUpload({
   limits: {fileSize: 50 * 1024 * 1024}
 }))
 
-app.use('/', indexRouter);
-app.use('/user', userRouter);
+app.use('/',indexRouter);
+app.use('/user',userRouter);
 app.use('/posts',postRouter);
 app.use('/admin',adminRouter)
 

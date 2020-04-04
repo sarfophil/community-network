@@ -5,8 +5,9 @@ const userService = require('../service/user-service')
 const BlockedAccount = require('../model/blocked-account')
 const ws = require("../config/websocket")
 
+const bcrypt = require('../util/bcrypt')
+const jwt = require('../util/jwt')
 
-//const postService = require('../service/post-service')
 
 // File Storage
 const fileStorageService = require('../service/filestorage-service')
@@ -15,13 +16,35 @@ const Utils = require('../util/apputil')
 
 
 router.post('/login', (req, res) => {
-  // Your implementation comes here ...
+  const username = req.body.username;
+  const password = req.body.password;
+  UserModel.findOne({$or : [{username: {$eq: username}},{email: {$eq: username}}]},function (err,user) {
+    if(err) res.statusCode(403)
+    let comparePassword = bcrypt.compareSync(password,user.password) 
+    if(comparePassword){
+      jwt.sign(user,(err,token) => {
+         if(err) {
+            res.status(500).send('Unable to sign token')
+         }else{ 
+           res.status(200).send({access_token: token})
+         }
+      })
+    }else{
+       res.sendStatus(403)
+    }
+  })
 });
 
 /** Create a user account*/
 router.post('/account', function(req,res,next) {
   let requestBody = req.body
+ 
+  // hash password
+  requestBody.password = bcrypt.encodeSync(requestBody.password)
+
   let user = new UserModel(requestBody);
+  
+
 
   user.validate().then((response)=>{
     userService.signup(user)
