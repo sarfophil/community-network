@@ -1,9 +1,11 @@
 /**
  * Web Socket
  */
-const config = require('../config/properties')
-const server = config.server
+const app = require('express')()
+const server = require('http').createServer()
 const io = require('socket.io')(server)
+
+server.listen(3100,() => console.log(`Web Socket Running {}`))
 
 
 module.exports = async function () {

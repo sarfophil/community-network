@@ -88,7 +88,6 @@ router.post('/', function(req,res){
  const postDto = function (requestBody) {
      return {
          user: requestBody.user,
-         title: requestBody.title,
          content: requestBody.content,
          audienceLocation: {
              coordinates: JSON.parse(requestBody.coordinates)
